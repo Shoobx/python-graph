@@ -39,7 +39,7 @@ class labeling( object ):
     
     def __init__(self):
         # Metadata bout edges
-        self.edge_properties = {}    # Mapping: Edge -> Dict mapping, lablel-> str, wt->num
+        self.edge_properties = {}    # Mapping: Edge -> Dict mapping, label-> str, wt->num
         self.edge_attr = {}          # Key value pairs: (Edge -> Attributes)
         
         # Metadata bout nodes

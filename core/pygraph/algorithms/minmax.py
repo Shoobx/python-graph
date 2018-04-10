@@ -31,27 +31,30 @@
 """
 Minimization and maximization algorithms.
 
-@sort: heuristic_search, minimal_spanning_tree, shortest_path,
-shortest_path_bellman_ford
+@sort: heuristic_search, minimal_spanning_tree_prim,
+minimal_spanning_tree_kruskal, shortest_path, shortest_path_bellman_ford
 """
 
 from pygraph.algorithms.utils import heappush, heappop
 from pygraph.classes.exceptions import NodeUnreachable
 from pygraph.classes.exceptions import NegativeWeightCycleError
 from pygraph.classes.digraph import digraph
+from pygraph.classes.unionfind import UnionFind
+import heapq
 import bisect
 
 # Minimal spanning tree
 
-def minimal_spanning_tree(graph, root=None):
+
+def minimal_spanning_tree_prim(graph, root=None, parallel=None):
     """
-    Minimal spanning tree.
+    Minimal spanning tree constructed with prim's algorithm.
 
     @attention: Minimal spanning tree is meaningful only for weighted graphs.
 
     @type  graph: graph
     @param graph: Graph.
-    
+
     @type  root: node
     @param root: Optional root node (will explore only root's connected component)
 
@@ -59,7 +62,7 @@ def minimal_spanning_tree(graph, root=None):
     @return: Generated spanning tree.
     """
     visited = []            # List for marking visited and non-visited nodes
-    spanning_tree = {}        # MInimal Spanning tree
+    spanning_tree = {}        # Minimal Spanning tree
 
     # Initialization
     if (root is not None):
@@ -68,11 +71,11 @@ def minimal_spanning_tree(graph, root=None):
         spanning_tree[root] = None
     else:
         nroot = 1
-    
+
     # Algorithm loop
     while (nroot is not None):
         ledge = _lightest_edge(graph, visited)
-        if (ledge == None):
+        if (ledge is None):
             if (root is not None):
                 break
             nroot = _first_unvisited(graph, visited)
@@ -84,6 +87,50 @@ def minimal_spanning_tree(graph, root=None):
             visited.append(ledge[1])
 
     return spanning_tree
+
+
+def minimal_spanning_tree_kruskal(graph, root=None, parallel=None):
+    """
+    Minimal spanning tree constructed with kruskal's algorithm.
+
+    @attention: Minimal spanning tree is meaningful only for weighted graphs.
+
+    @type  graph: graph
+    @param graph: Graph.
+
+    @type  root: node
+    @param root: Optional root node (will explore only root's connected component)
+
+    @rtype:  dictionary
+    @return: Generated spanning tree.
+    """
+
+    EDGE_WEIGHT = 0
+    EDGE_OBJ = 1
+
+    if root is not None:
+        # Will be implemented later
+        pass
+
+
+    spanning_tree = {}
+    edges = graph.edges()
+    num_edges = len(edges)
+    edges_heap = []
+
+    for edge in [(graph.edge_weight(edge), edge) for edge in edges]:
+        heapq.heappush(edges_heap, edge)
+    heapq.heapify(edges_heap)
+    print(edges_heap)
+    cycle_checker = UnionFind(num_edges)
+    for min_edge in range(num_edges):
+        min_elem = heapq.heappop(edges_heap)
+        min_edge = min_elem[EDGE_OBJ]
+        if not cycle_checker.find(min_edge[0], min_edge[1]):
+            cycle_checker.union(min_edge[0], min_edge[1])
+            spanning_tree[min_edge[0]] = min_edge[1]
+
+    return spanning_tree 
 
 
 def _first_unvisited(graph, visited):
@@ -138,7 +185,7 @@ def shortest_path(graph, source):
     algorithm.
     
     @attention: All weights must be nonnegative.
-    
+
     @see: shortest_path_bellman_ford
 
     @type  graph: graph, digraph
