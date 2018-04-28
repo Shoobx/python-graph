@@ -34,8 +34,8 @@ from pygraph.classes.graph import graph
 from pygraph.classes.digraph import digraph
 
 from pygraph.algorithms.searching import depth_first_search
-from pygraph.algorithms.minmax import minimal_spanning_tree,\
-shortest_path, heuristic_search, shortest_path_bellman_ford, maximum_flow, cut_tree
+from pygraph.algorithms.minmax import minimal_spanning_tree_kruskal,\
+minimal_spanning_tree_prim, shortest_path, heuristic_search, shortest_path_bellman_ford, maximum_flow, cut_tree
 from pygraph.algorithms.heuristics.chow import chow
 from pygraph.classes.exceptions import NegativeWeightCycleError
 
@@ -97,11 +97,31 @@ def generate_fixture_digraph_unconnected():
     
 # minimal spanning tree tests
 
-class test_minimal_spanning_tree(unittest.TestCase):
+class test_minimal_spanning_tree_kruskal(unittest.TestCase):
 
-    def test_minimal_spanning_tree_on_graph(self):
+    def test_minimal_spanning_tree_kruskal_on_graph(self):
         gr = testlib.new_graph(wt_range=(1,10))
-        mst = minimal_spanning_tree(gr, root=0)
+        mst = minimal_spanning_tree_kruskal(gr, root=0)
+        print(mst)
+        wt = tree_weight(gr, mst)
+        len_dfs = len(depth_first_search(gr, root=0)[0])
+        for each in mst:
+            if (mst[each] != None):
+                mst_copy = deepcopy(mst)
+                del(mst_copy[each])
+                for other in gr[each]:
+                     mst_copy[each] = other
+                     if (tree_weight(gr, mst_copy) < wt):
+                         gr2 = graph()
+                         add_spanning_tree(gr2, mst_copy)
+                         assert len(depth_first_search(gr2, root=0)[0]) < len_dfs
+
+
+class test_minimal_spanning_tree_prim(unittest.TestCase):
+
+    def test_minimal_spanning_tree_prim_on_graph(self):
+        gr = testlib.new_graph(wt_range=(1,10))
+        mst = minimal_spanning_tree_prim(gr, root=0)
         wt = tree_weight(gr, mst)
         len_dfs = len(depth_first_search(gr, root=0)[0])
         for each in mst:
@@ -115,6 +135,7 @@ class test_minimal_spanning_tree(unittest.TestCase):
                          add_spanning_tree(gr2, mst_copy)
                          assert len(depth_first_search(gr2, root=0)[0]) < len_dfs
     
+
 
 # shortest path tests
 

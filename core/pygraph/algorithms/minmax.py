@@ -84,6 +84,7 @@ def minimal_spanning_tree_prim(graph, root=None, parallel=None):
             visited.append(nroot)
         else:
             spanning_tree[ledge[1]] = ledge[0]
+            spanning_tree[ledge[0]] = ledge[1]
             visited.append(ledge[1])
 
     return spanning_tree
@@ -111,7 +112,8 @@ def minimal_spanning_tree_kruskal(graph, root=None, parallel=None):
     if root is not None:
         # Will be implemented later
         pass
-
+    else:
+        root = 0
 
     spanning_tree = {}
     edges = graph.edges()
@@ -121,13 +123,15 @@ def minimal_spanning_tree_kruskal(graph, root=None, parallel=None):
     for edge in [(graph.edge_weight(edge), edge) for edge in edges]:
         heapq.heappush(edges_heap, edge)
     heapq.heapify(edges_heap)
-    print(edges_heap)
+   
+    spanning_tree[root] = None
     cycle_checker = UnionFind(num_edges)
     for min_edge in range(num_edges):
         min_elem = heapq.heappop(edges_heap)
         min_edge = min_elem[EDGE_OBJ]
         if not cycle_checker.find(min_edge[0], min_edge[1]):
             cycle_checker.union(min_edge[0], min_edge[1])
+            spanning_tree[min_edge[1]] = min_edge[0]
             spanning_tree[min_edge[0]] = min_edge[1]
 
     return spanning_tree 
