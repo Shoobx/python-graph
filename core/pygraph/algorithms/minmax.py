@@ -45,49 +45,67 @@ import bisect
 
 # Minimal spanning tree
 
+def helperConvertListtoDict(listX, dictY):
+    for a in listX:
+        if a[0] not in dictY:
+            dictY [a[0]] = a[1]
+            #print dictY #e3
+        else:
+            dictY [a[1]] = a[0]
+    return dictY
 
-def minimal_spanning_tree_prim(graph, root=None, parallel=None):
+# Minimal spanning tree
+def minimal_spanning_tree_prim (graphFn, root=None):
     """
+    author:Adi 
     Minimal spanning tree constructed with prim's algorithm.
-
+    returns tree in dict form
+    
     @attention: Minimal spanning tree is meaningful only for weighted graphs.
 
     @type  graph: graph
     @param graph: Graph.
 
     @type  root: node
-    @param root: Optional root node (will explore only root's connected component)
+    @param root: Optional root node 
 
-    @rtype:  dictionary
-    @return: Generated spanning tree.
+    @rtype:  dict of edges
+    @return: Generated minimal spanning tree (mst)
     """
-    visited = []            # List for marking visited and non-visited nodes
-    spanning_tree = {}        # Minimal Spanning tree
+    if root == None: #If a node is not given
+        NodesNotInTreeList = graphFn.nodes() #all nodes in the beginning minus the one that has been taken in the tree
+        NodeToBeAddedToTree = NodesNotInTreeList[0]
+        NodesInTreeList = []
+        NodesInTreeList.append(NodeToBeAddedToTree)
+        NodesNotInTreeList.remove(NodeToBeAddedToTree) 
+        edgesInTreeList = [ ] 
+    else: #If a node is given
+        NodesNotInTreeList = graphFn.nodes() #all nodes in the beginning minus the one that has been taken in the tree
+        NodeToBeAddedToTree = root
+        NodesInTreeList = []
+        NodesInTreeList.append(NodeToBeAddedToTree)
+        NodesNotInTreeList.remove(NodeToBeAddedToTree) 
+        edgesInTreeList = [ ]
+        
+    while NodesNotInTreeList != [ ]:
+    #for every node from NodesInTreeList, use le = _lightest_edge(graph, visited)
+    #where visited = NodesInTreeList
+        le = _lightest_edge(graphFn, NodesInTreeList)
+      
+    #for a specific pass through WHILE loop
+        for a in le:  #STEP 1: obtain the 'selected node' which is that end of lightest edge "le" not yet in the tree
+            if a not in NodesInTreeList:
+                selectedNode = a
+            else:
+                pass        
+        
+        edgesInTreeList.append (le) #STEP 2: add the lightest edge "le" to the edgesInTreeList list
+        NodesInTreeList.append (selectedNode) #STEP 3: add the 'selected node' to the NodesInTreeList list
+        NodesNotInTreeList.remove(selectedNode)  #STEP 4: remove the 'selected node' from the NodesNotInTreeList list
 
-    # Initialization
-    if (root is not None):
-        visited.append(root)
-        nroot = root
-        spanning_tree[root] = None
-    else:
-        nroot = 1
-
-    # Algorithm loop
-    while (nroot is not None):
-        ledge = _lightest_edge(graph, visited)
-        if (ledge is None):
-            if (root is not None):
-                break
-            nroot = _first_unvisited(graph, visited)
-            if (nroot is not None):
-                spanning_tree[nroot] = None
-            visited.append(nroot)
-        else:
-            spanning_tree[ledge[1]] = ledge[0]
-            spanning_tree[ledge[0]] = ledge[1]
-            visited.append(ledge[1])
-
-    return spanning_tree
+    edgesInTreeDict = {}
+    helperConvertListtoDict (edgesInTreeList, edgesInTreeDict)
+    return (edgesInTreeDict)  
 
 
 def minimal_spanning_tree_kruskal(graph, root=None, parallel=None):
