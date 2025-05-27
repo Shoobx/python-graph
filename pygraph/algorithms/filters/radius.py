@@ -27,7 +27,7 @@ Radial search filter.
 """
 
 
-class radius(object):
+class radius:
     """
     Radial search filter.
 

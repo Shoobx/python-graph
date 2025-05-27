@@ -31,7 +31,7 @@ Edmond Chow's heuristic for A*.
 from pygraph.algorithms.minmax import shortest_path
 
 
-class chow(object):
+class chow:
     """
     An implementation of the graph searching heuristic proposed by Edmond Chow.
 

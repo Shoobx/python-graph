@@ -30,7 +30,7 @@ A* heuristic for euclidean graphs.
 # Imports
 
 
-class euclidean(object):
+class euclidean:
     """
     A* heuristic for Euclidean graphs.
 

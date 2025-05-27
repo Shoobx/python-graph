@@ -27,7 +27,7 @@ Null searching filter.
 """
 
 
-class null(object):
+class null:
     """
     Null search filter.
     """

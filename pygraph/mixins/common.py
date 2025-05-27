@@ -23,7 +23,7 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 
 
-class common(object):
+class common:
     """
     Standard methods common to all graph classes.
 

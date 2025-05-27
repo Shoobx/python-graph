@@ -23,7 +23,7 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 
 
-class labeling(object):
+class labeling:
     """
     Generic labeling support for graphs
 

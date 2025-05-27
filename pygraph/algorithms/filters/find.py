@@ -27,7 +27,7 @@ Search filter for finding a specific node.
 """
 
 
-class find(object):
+class find:
     """
     Search filter for finding a specific node.
     """
