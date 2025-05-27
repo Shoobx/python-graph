@@ -28,7 +28,6 @@ Search algorithms.
 @sort: breadth_first_search, depth_first_search
 """
 
-
 # Imports
 from pygraph.algorithms.filters.null import null
 from sys import getrecursionlimit, setrecursionlimit
@@ -36,13 +35,14 @@ from sys import getrecursionlimit, setrecursionlimit
 
 # Depth-first search
 
+
 def depth_first_search(graph, root=None, filter=null()):
     """
     Depth-first search.
 
     @type  graph: graph, digraph
     @param graph: Graph.
-    
+
     @type  root: node
     @param root: Optional root node (will explore only root's connected component)
 
@@ -52,9 +52,9 @@ def depth_first_search(graph, root=None, filter=null()):
         2. Graph's preordering
         3. Graph's postordering
     """
-    
+
     recursionlimit = getrecursionlimit()
-    setrecursionlimit(max(len(graph.nodes())*2,recursionlimit))
+    setrecursionlimit(max(len(graph.nodes()) * 2, recursionlimit))
 
     def dfs(node):
         """
@@ -64,39 +64,40 @@ def depth_first_search(graph, root=None, filter=null()):
         pre.append(node)
         # Explore recursively the connected component
         for each in graph[node]:
-            if (each not in visited and filter(each, node)):
+            if each not in visited and list(filter(each, node)):
                 spanning_tree[each] = node
                 dfs(each)
         post.append(node)
 
-    visited = {}            # List for marking visited and non-visited nodes
-    spanning_tree = {}      # Spanning tree
-    pre = []                # Graph's preordering
-    post = []               # Graph's postordering
+    visited = {}  # List for marking visited and non-visited nodes
+    spanning_tree = {}  # Spanning tree
+    pre = []  # Graph's preordering
+    post = []  # Graph's postordering
     filter.configure(graph, spanning_tree)
 
     # DFS from one node only
-    if (root is not None):
-        if filter(root, None):
+    if root is not None:
+        if list(filter(root, None)):
             spanning_tree[root] = None
             dfs(root)
         setrecursionlimit(recursionlimit)
         return spanning_tree, pre, post
-    
+
     # Algorithm loop
     for each in graph:
         # Select a non-visited node
-        if (each not in visited and filter(each, None)):
+        if each not in visited and list(filter(each, None)):
             spanning_tree[each] = None
             # Explore node's connected component
             dfs(each)
 
     setrecursionlimit(recursionlimit)
-    
+
     return (spanning_tree, pre, post)
 
 
 # Breadth-first search
+
 
 def breadth_first_search(graph, root=None, filter=null()):
     """
@@ -118,23 +119,23 @@ def breadth_first_search(graph, root=None, filter=null()):
         """
         Breadth-first search subfunction.
         """
-        while (queue != []):
+        while queue != []:
             node = queue.pop(0)
-            
+
             for other in graph[node]:
-                if (other not in spanning_tree and filter(other, node)):
+                if other not in spanning_tree and list(filter(other, node)):
                     queue.append(other)
                     ordering.append(other)
                     spanning_tree[other] = node
-    
-    queue = []            # Visiting queue
-    spanning_tree = {}    # Spanning tree
+
+    queue = []  # Visiting queue
+    spanning_tree = {}  # Spanning tree
     ordering = []
     filter.configure(graph, spanning_tree)
-    
+
     # BFS from one node only
-    if (root is not None):
-        if filter(root, None):
+    if root is not None:
+        if list(filter(root, None)):
             queue.append(root)
             ordering.append(root)
             spanning_tree[root] = None
@@ -143,8 +144,8 @@ def breadth_first_search(graph, root=None, filter=null()):
 
     # Algorithm
     for each in graph:
-        if (each not in spanning_tree):
-            if filter(each, None):
+        if each not in spanning_tree:
+            if list(filter(each, None)):
                 queue.append(each)
                 ordering.append(each)
                 spanning_tree[each] = None

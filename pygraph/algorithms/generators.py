@@ -29,28 +29,27 @@ Random graph generators.
 @sort: generate, generate_hypergraph
 """
 
-
 # Imports
 from pygraph.classes.graph import graph
 from pygraph.classes.digraph import digraph
 from pygraph.classes.hypergraph import hypergraph
-from random import randint, choice, shuffle #@UnusedImport
-from time import time
+from random import randint, choice, shuffle  # @UnusedImport
 
 # Generator
+
 
 def generate(num_nodes, num_edges, directed=False, weight_range=(1, 1)):
     """
     Create a random graph.
-    
+
     @type  num_nodes: number
     @param num_nodes: Number of nodes.
-    
+
     @type  num_edges: number
     @param num_edges: Number of edges.
-    
+
     @type  directed: bool
-    @param directed: Whether the generated graph should be directed or not.  
+    @param directed: Whether the generated graph should be directed or not.
 
     @type  weight_range: tuple
     @param weight_range: tuple of two integers as lower and upper limits on randomly generated
@@ -63,54 +62,54 @@ def generate(num_nodes, num_edges, directed=False, weight_range=(1, 1)):
         random_graph = graph()
 
     # Nodes
-    nodes = range(num_nodes)
+    nodes = list(range(num_nodes))
     random_graph.add_nodes(nodes)
-    
+
     # Build a list of all possible edges
     edges = []
     edges_append = edges.append
     for x in nodes:
         for y in nodes:
-            if ((directed and x != y) or (x > y)):
+            if (directed and x != y) or (x > y):
                 edges_append((x, y))
-    
+
     # Randomize the list
     shuffle(edges)
-    
+
     # Add edges to the graph
     min_wt = min(weight_range)
     max_wt = max(weight_range)
     for i in range(num_edges):
         each = edges[i]
-        random_graph.add_edge((each[0], each[1]), wt = randint(min_wt, max_wt))
+        random_graph.add_edge((each[0], each[1]), wt=randint(min_wt, max_wt))
 
     return random_graph
 
 
-def generate_hypergraph(num_nodes, num_edges, r = 0):
+def generate_hypergraph(num_nodes, num_edges, r=0):
     """
     Create a random hyper graph.
-    
+
     @type  num_nodes: number
     @param num_nodes: Number of nodes.
-    
+
     @type  num_edges: number
     @param num_edges: Number of edges.
-    
+
     @type  r: number
     @param r: Uniform edges of size r.
     """
     # Graph creation
     random_graph = hypergraph()
-    
+
     # Nodes
     nodes = list(map(str, list(range(num_nodes))))
     random_graph.add_nodes(nodes)
-    
+
     # Base edges
-    edges = list(map(str, list(range(num_nodes, num_nodes+num_edges))))
+    edges = list(map(str, list(range(num_nodes, num_nodes + num_edges))))
     random_graph.add_hyperedges(edges)
-    
+
     # Connect the edges
     if 0 == r:
         # Add each edge with 50/50 probability
@@ -118,15 +117,15 @@ def generate_hypergraph(num_nodes, num_edges, r = 0):
             for n in nodes:
                 if choice([True, False]):
                     random_graph.link(n, e)
-    
+
     else:
         # Add only uniform edges
         for e in edges:
             # First shuffle the nodes
             shuffle(nodes)
-            
+
             # Then take the first r nodes
             for i in range(r):
                 random_graph.link(nodes[i], e)
-    
+
     return random_graph

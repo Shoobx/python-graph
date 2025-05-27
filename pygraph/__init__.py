@@ -59,5 +59,3 @@ A quick introductory example:
 >>> print st
 {'A': 'B', 'C': 'A', 'B': 'Y', 'Y': 'X', 'X': None, 'Z': 'X'}
 """
-
-__import__('pkg_resources').declare_namespace(__name__)

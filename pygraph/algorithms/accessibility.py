@@ -28,11 +28,11 @@ Accessibility algorithms.
 @sort: accessibility, connected_components, cut_edges, cut_nodes, mutual_accessibility
 """
 
-
 # Imports
 from sys import getrecursionlimit, setrecursionlimit
 
 # Transitive-closure
+
 
 def accessibility(graph):
     """
@@ -45,9 +45,9 @@ def accessibility(graph):
     @return: Accessibility information for each node.
     """
     recursionlimit = getrecursionlimit()
-    setrecursionlimit(max(len(graph.nodes())*2,recursionlimit))
-    
-    accessibility = {}        # Accessibility matrix
+    setrecursionlimit(max(len(graph.nodes()) * 2, recursionlimit))
+
+    accessibility = {}  # Accessibility matrix
 
     # For each node i, mark each node j if that exists a path from i to j.
     for each in graph:
@@ -55,12 +55,13 @@ def accessibility(graph):
         # Perform DFS to explore all reachable nodes
         _dfs(graph, access, 1, each)
         accessibility[each] = list(access.keys())
-    
+
     setrecursionlimit(recursionlimit)
     return accessibility
 
 
 # Strongly connected components
+
 
 def mutual_accessibility(graph):
     """
@@ -73,12 +74,12 @@ def mutual_accessibility(graph):
     @return: Mutual-accessibility information for each node.
     """
     recursionlimit = getrecursionlimit()
-    setrecursionlimit(max(len(graph.nodes())*2,recursionlimit))
-    
+    setrecursionlimit(max(len(graph.nodes()) * 2, recursionlimit))
+
     mutual_access = {}
     stack = []
     low = {}
-        
+
     def visit(node):
         if node in low:
             return
@@ -87,11 +88,11 @@ def mutual_accessibility(graph):
         low[node] = num
         stack_pos = len(stack)
         stack.append(node)
-        
+
         for successor in graph.neighbors(node):
             visit(successor)
             low[node] = min(low[node], low[successor])
-        
+
         if num == low[node]:
             component = stack[stack_pos:]
             del stack[stack_pos:]
@@ -101,15 +102,16 @@ def mutual_accessibility(graph):
 
             for item in component:
                 low[item] = len(graph)
-    
+
     for node in graph:
         visit(node)
-    
+
     setrecursionlimit(recursionlimit)
     return mutual_access
 
 
 # Connected components
+
 
 def connected_components(graph):
     """
@@ -122,28 +124,29 @@ def connected_components(graph):
     @return: Pairing that associates each node to its connected component.
     """
     recursionlimit = getrecursionlimit()
-    setrecursionlimit(max(len(graph.nodes())*2,recursionlimit))
-    
+    setrecursionlimit(max(len(graph.nodes()) * 2, recursionlimit))
+
     visited = {}
     count = 1
 
     # For 'each' node not found to belong to a connected component, find its connected
     # component.
     for each in graph:
-        if (each not in visited):
+        if each not in visited:
             _dfs(graph, visited, count, each)
             count = count + 1
-    
+
     setrecursionlimit(recursionlimit)
     return visited
 
 
 # Limited DFS implementations used by algorithms here
 
+
 def _dfs(graph, visited, count, node):
     """
     Depth-first search subfunction adapted for accessibility algorithms.
-    
+
     @type  graph: graph, digraph, hypergraph
     @param graph: Graph.
 
@@ -159,7 +162,7 @@ def _dfs(graph, visited, count, node):
     visited[node] = count
     # Explore recursively the connected component
     for each in graph[node]:
-        if (each not in visited):
+        if each not in visited:
             _dfs(graph, visited, count, each)
 
 
@@ -179,37 +182,38 @@ def _dfs(graph, visited, count, node):
 # u are so that low[v] > pre[u], which means that there's no path from v to outside this subtree
 # without passing through u.
 
+
 def cut_edges(graph):
     """
     Return the cut-edges of the given graph.
-    
+
     A cut edge, or bridge, is an edge of a graph whose removal increases the number of connected
     components in the graph.
-    
+
     @type  graph: graph, hypergraph
     @param graph: Graph.
-    
+
     @rtype:  list
     @return: List of cut-edges.
     """
     recursionlimit = getrecursionlimit()
-    setrecursionlimit(max(len(graph.nodes())*2,recursionlimit))
+    setrecursionlimit(max(len(graph.nodes()) * 2, recursionlimit))
 
     # Dispatch if we have a hypergraph
-    if 'hypergraph' == graph.__class__.__name__:
+    if "hypergraph" == graph.__class__.__name__:
         return _cut_hyperedges(graph)
 
-    pre = {}    # Pre-ordering
-    low = {}    # Lowest pre[] reachable from this node going down the spanning tree + one backedge
+    pre = {}  # Pre-ordering
+    low = {}  # Lowest pre[] reachable from this node going down the spanning tree + one backedge
     spanning_tree = {}
     reply = []
     pre[None] = 0
 
     for each in graph:
-        if (each not in pre):
+        if each not in pre:
             spanning_tree[each] = None
             _cut_dfs(graph, spanning_tree, pre, low, reply, each)
-    
+
     setrecursionlimit(recursionlimit)
     return reply
 
@@ -217,71 +221,71 @@ def cut_edges(graph):
 def _cut_hyperedges(hypergraph):
     """
     Return the cut-hyperedges of the given hypergraph.
-    
+
     @type  hypergraph: hypergraph
     @param hypergraph: Hypergraph
-    
+
     @rtype:  list
     @return: List of cut-nodes.
     """
     edges_ = cut_nodes(hypergraph.graph)
     edges = []
-    
+
     for each in edges_:
-        if (each[1] == 'h'):
+        if each[1] == "h":
             edges.append(each[0])
-    
+
     return edges
 
 
 def cut_nodes(graph):
     """
     Return the cut-nodes of the given graph.
-    
+
     A cut node, or articulation point, is a node of a graph whose removal increases the number of
     connected components in the graph.
-    
+
     @type  graph: graph, hypergraph
     @param graph: Graph.
-        
+
     @rtype:  list
     @return: List of cut-nodes.
     """
     recursionlimit = getrecursionlimit()
-    setrecursionlimit(max(len(graph.nodes())*2,recursionlimit))
-    
+    setrecursionlimit(max(len(graph.nodes()) * 2, recursionlimit))
+
     # Dispatch if we have a hypergraph
-    if 'hypergraph' == graph.__class__.__name__:
+    if "hypergraph" == graph.__class__.__name__:
         return _cut_hypernodes(graph)
-        
-    pre = {}    # Pre-ordering
-    low = {}    # Lowest pre[] reachable from this node going down the spanning tree + one backedge
+
+    pre = {}  # Pre-ordering
+    low = {}  # Lowest pre[] reachable from this node going down the spanning tree + one backedge
     reply = {}
     spanning_tree = {}
     pre[None] = 0
-    
+
     # Create spanning trees, calculate pre[], low[]
     for each in graph:
-        if (each not in pre):
+        if each not in pre:
             spanning_tree[each] = None
             _cut_dfs(graph, spanning_tree, pre, low, [], each)
 
     # Find cuts
     for each in graph:
         # If node is not a root
-        if (spanning_tree[each] is not None):
+        if spanning_tree[each] is not None:
             for other in graph[each]:
                 # If there is no back-edge from descendent to a ancestral of each
-                if (low[other] >= pre[each] and spanning_tree[other] == each):
+                if low[other] >= pre[each] and spanning_tree[other] == each:
                     reply[each] = 1
         # If node is a root
         else:
             children = 0
             for other in graph:
-                if (spanning_tree[other] == each):
+                if spanning_tree[other] == each:
                     children = children + 1
             # root is cut-vertex iff it has two or more children
-            if (children >= 2):
+            if children >= 2:
                 reply[each] = 1
 
     setrecursionlimit(recursionlimit)
@@ -291,57 +295,57 @@ def cut_nodes(graph):
 def _cut_hypernodes(hypergraph):
     """
     Return the cut-nodes of the given hypergraph.
-    
+
     @type  hypergraph: hypergraph
     @param hypergraph: Hypergraph
-    
+
     @rtype:  list
     @return: List of cut-nodes.
     """
     nodes_ = cut_nodes(hypergraph.graph)
     nodes = []
-    
+
     for each in nodes_:
-        if (each[1] == 'n'):
+        if each[1] == "n":
             nodes.append(each[0])
-    
+
     return nodes
 
 
 def _cut_dfs(graph, spanning_tree, pre, low, reply, node):
     """
     Depth first search adapted for identification of cut-edges and cut-nodes.
-    
+
     @type  graph: graph, digraph
     @param graph: Graph
-    
+
     @type  spanning_tree: dictionary
     @param spanning_tree: Spanning tree being built for the graph by DFS.
 
     @type  pre: dictionary
     @param pre: Graph's preordering.
-    
+
     @type  low: dictionary
     @param low: Associates to each node, the preordering index of the node of lowest preordering
     accessible from the given node.
 
     @type  reply: list
     @param reply: List of cut-edges.
-    
+
     @type  node: node
     @param node: Node to be explored by DFS.
     """
     pre[node] = pre[None]
     low[node] = pre[None]
     pre[None] = pre[None] + 1
-    
+
     for each in graph[node]:
-        if (each not in pre):
+        if each not in pre:
             spanning_tree[each] = node
             _cut_dfs(graph, spanning_tree, pre, low, reply, each)
-            if (low[node] > low[each]):
+            if low[node] > low[each]:
                 low[node] = low[each]
-            if (low[each] == pre[each]):
+            if low[each] == pre[each]:
                 reply.append((node, each))
-        elif (low[node] > pre[each] and spanning_tree[node] != each):
+        elif low[node] > pre[each] and spanning_tree[node] != each:
             low[node] = pre[each]

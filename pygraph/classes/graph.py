@@ -29,7 +29,6 @@
 Graph class
 """
 
-
 # Imports
 from pygraph.classes.exceptions import AdditionError
 from pygraph.mixins.labeling import labeling
@@ -40,15 +39,14 @@ from pygraph.mixins.basegraph import basegraph
 class graph(basegraph, common, labeling):
     """
     Graph class.
-    
+
     Graphs are built of nodes and edges.
 
     @sort:  __eq__, __init__, __ne__, add_edge, add_node, del_edge, del_node, edges, has_edge, has_node,
     neighbors, node_order, nodes
     """
-    
-    DIRECTED = False
 
+    DIRECTED = False
 
     def __init__(self):
         """
@@ -56,8 +54,8 @@ class graph(basegraph, common, labeling):
         """
         common.__init__(self)
         labeling.__init__(self)
-        self.node_neighbors = {}     # Pairing: Node -> Neighbors
-    
+        self.node_neighbors = {}  # Pairing: Node -> Neighbors
+
     def nodes(self):
         """
         Return node list.
@@ -66,7 +64,6 @@ class graph(basegraph, common, labeling):
         @return: Node list.
         """
         return list(self.node_neighbors.keys())
-
 
     def neighbors(self, node):
         """
@@ -79,15 +76,15 @@ class graph(basegraph, common, labeling):
         @return: List of nodes directly accessible from given node.
         """
         return list(self.node_neighbors[node])
-    
+
     def edges(self):
         """
         Return all edges in the graph.
-        
+
         @rtype:  list
         @return: List of all edges in the graph.
         """
-        return [ a for a in self.edge_properties.keys() ]
+        return [a for a in list(self.edge_properties.keys())]
 
     def has_node(self, node):
         """
@@ -101,32 +98,31 @@ class graph(basegraph, common, labeling):
         """
         return node in self.node_neighbors
 
-
     def add_node(self, node, attrs=None):
         """
         Add given node to the graph.
-        
+
         @attention: While nodes can be of any type, it's strongly recommended to use only
         numbers and single-line strings as node identifiers if you intend to use write().
 
         @type  node: node
         @param node: Node identifier.
-        
+
         @type  attrs: list
         @param attrs: List of node attributes specified as (attribute, value) tuples.
         """
         if attrs is None:
             attrs = []
-        if (not node in self.node_neighbors):
+        if node not in self.node_neighbors:
             self.node_neighbors[node] = set()
             self.node_attr[node] = attrs
         else:
             raise AdditionError("Node %s already in graph" % node)
 
-    def add_edge(self, edge, wt=1, label='', attrs=[]):
+    def add_edge(self, edge, wt=1, label="", attrs=[]):
         """
         Add an edge to the graph connecting two nodes.
-        
+
         An edge, here, is a pair of nodes like C{(n, m)}.
 
         @type  edge: tuple
@@ -134,38 +130,36 @@ class graph(basegraph, common, labeling):
 
         @type  wt: number
         @param wt: Edge weight.
-        
+
         @type  label: string
         @param label: Edge label.
-        
+
         @type  attrs: list
         @param attrs: List of node attributes specified as (attribute, value) tuples.
         """
         u, v = edge
-        if (v not in self.node_neighbors[u] and u not in self.node_neighbors[v]):
+        if v not in self.node_neighbors[u] and u not in self.node_neighbors[v]:
             self.node_neighbors[u].add(v)
-            if (u != v):
+            if u != v:
                 self.node_neighbors[v].add(u)
-                
-            self.add_edge_attributes((u,v), attrs)        
+
+            self.add_edge_attributes((u, v), attrs)
             self.set_edge_properties((u, v), label=label, weight=wt)
         else:
             raise AdditionError("Edge (%s, %s) already in graph" % (u, v))
 
-
     def del_node(self, node):
         """
         Remove a node from the graph.
-        
+
         @type  node: node
         @param node: Node identifier.
         """
         for each in list(self.neighbors(node)):
-            if (each != node):
+            if each != node:
                 self.del_edge((each, node))
-        del(self.node_neighbors[node])
-        del(self.node_attr[node])
-
+        del self.node_neighbors[node]
+        del self.node_attr[node]
 
     def del_edge(self, edge):
         """
@@ -176,10 +170,10 @@ class graph(basegraph, common, labeling):
         """
         u, v = edge
         self.node_neighbors[u].remove(v)
-        self.del_edge_labeling((u, v))  
-        if (u != v):
+        self.del_edge_labeling((u, v))
+        if u != v:
             self.node_neighbors[v].remove(u)
-            self.del_edge_labeling((v, u)) # TODO: This is redundant
+            self.del_edge_labeling((v, u))  # TODO: This is redundant
 
     def has_edge(self, edge):
         """
@@ -191,39 +185,37 @@ class graph(basegraph, common, labeling):
         @rtype:  boolean
         @return: Truth-value for edge existence.
         """
-        u,v = edge
-        return (u,v) in self.edge_properties and (v,u) in self.edge_properties
-    
-    
+        u, v = edge
+        return (u, v) in self.edge_properties and (v, u) in self.edge_properties
+
     def node_order(self, node):
         """
         Return the order of the graph
-        
+
         @rtype:  number
         @return: Order of the given node.
         """
         return len(self.neighbors(node))
 
-
     def __eq__(self, other):
         """
         Return whether this graph is equal to another one.
-        
+
         @type other: graph, digraph
         @param other: Other graph or digraph
-        
+
         @rtype: boolean
         @return: Whether this graph and the other are equal.
         """
         return common.__eq__(self, other) and labeling.__eq__(self, other)
-    
+
     def __ne__(self, other):
         """
         Return whether this graph is not equal to another one.
-        
+
         @type other: graph, digraph
         @param other: Other graph or digraph
-        
+
         @rtype: boolean
         @return: Whether this graph and the other are different.
         """

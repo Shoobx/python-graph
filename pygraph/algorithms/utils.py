@@ -37,7 +37,7 @@ class priority_queue:
     """
     Priority queue.
     """
-    
+
     def __init__(self, list=[]):
         self.heap = [HeapItem(i, 0) for i in list]
         heapify(self.heap)
@@ -79,6 +79,7 @@ class priority_queue:
                 new_heap.append(heap_item)
         self.heap = new_heap
         heapify(self.heap)
+
 
 class HeapItem:
     def __init__(self, item, priority):

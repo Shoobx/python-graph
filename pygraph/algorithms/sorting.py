@@ -28,9 +28,9 @@ Sorting algorithms.
 @sort: topological_sorting
 """
 
-
 # Imports
 from pygraph.algorithms.searching import depth_first_search
+
 
 # Topological sorting
 def topological_sorting(graph):

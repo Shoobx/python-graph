@@ -29,48 +29,61 @@ Exceptions.
 
 # Graph errors
 
+
 class GraphError(RuntimeError):
     """
     A base-class for the various kinds of errors that occur in the the python-graph class.
     """
+
     pass
+
 
 class AdditionError(GraphError):
     """
     This error is raised when trying to add a node or edge already added to the graph or digraph.
     """
+
     pass
+
 
 class NodeUnreachable(GraphError):
     """
     Goal could not be reached from start.
     """
+
     def __init__(self, start, goal):
-        msg = "Node %s could not be reached from node %s" % ( repr(goal), repr(start) )
+        msg = "Node %s could not be reached from node %s" % (repr(goal), repr(start))
         InvalidGraphType.__init__(self, msg)
         self.start = start
         self.goal = goal
+
 
 class InvalidGraphType(GraphError):
     """
     Invalid graph type.
     """
+
     pass
+
 
 # Algorithm errors
 
+
 class AlgorithmError(RuntimeError):
     """
-    A base-class for the various kinds of errors that occur in the the 
+    A base-class for the various kinds of errors that occur in the the
     algorithms package.
     """
+
     pass
+
 
 class NegativeWeightCycleError(AlgorithmError):
     """
-    Algorithms like the Bellman-Ford algorithm can detect and raise an exception 
+    Algorithms like the Bellman-Ford algorithm can detect and raise an exception
     when they encounter a negative weight cycle.
-    
+
     @see: pygraph.algorithms.shortest_path_bellman_ford
     """
+
     pass

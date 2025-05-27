@@ -28,5 +28,3 @@ Set of search heuristics.
 
 These are to be used with the C{heuristic_search()} function.
 """
-
-__import__('pkg_resources').declare_namespace(__name__)

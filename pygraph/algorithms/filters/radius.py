@@ -30,14 +30,14 @@ Radial search filter.
 class radius(object):
     """
     Radial search filter.
-    
+
     This will keep searching contained inside a specified limit.
     """
-    
+
     def __init__(self, radius):
         """
         Initialize the filter.
-        
+
         @type  radius: number
         @param radius: Search radius.
         """
@@ -45,52 +45,52 @@ class radius(object):
         self.spanning_tree = None
         self.radius = radius
         self.done = False
-    
+
     def configure(self, graph, spanning_tree):
         """
         Configure the filter.
-        
+
         @type  graph: graph
         @param graph: Graph.
-        
+
         @type  spanning_tree: dictionary
         @param spanning_tree: Spanning tree.
         """
         self.graph = graph
         self.spanning_tree = spanning_tree
-         
+
     def __call__(self, node, parent):
         """
         Decide if the given node should be included in the search process.
-        
+
         @type  node: node
         @param node: Given node.
-        
+
         @type  parent: node
         @param parent: Given node's parent in the spanning tree.
-        
+
         @rtype: boolean
-        @return: Whether the given node should be included in the search process. 
+        @return: Whether the given node should be included in the search process.
         """
-        
+
         def cost_to_root(node):
-            if (node is not None):
+            if node is not None:
                 return cost_to_parent(node, st[node]) + cost_to_root(st[node])
             else:
                 return 0
-        
+
         def cost_to_parent(node, parent):
-            if (parent is not None):
+            if parent is not None:
                 return gr.edge_weight((parent, node))
             else:
                 return 0
-        
+
         gr = self.graph
         st = self.spanning_tree
-        
-        cost =  cost_to_parent(node, parent) + cost_to_root(parent)
-        
-        if (cost <= self.radius):
+
+        cost = cost_to_parent(node, parent) + cost_to_root(parent)
+
+        if cost <= self.radius:
             return True
         else:
             return False

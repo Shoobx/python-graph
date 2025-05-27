@@ -31,32 +31,33 @@ Traversal algorithms.
 
 # Minimal spanning tree
 
+
 def traversal(graph, node, order):
     """
     Graph traversal iterator.
 
     @type  graph: graph, digraph
     @param graph: Graph.
-    
+
     @type  node: node
     @param node: Node.
-    
+
     @type  order: string
     @param order: traversal ordering. Possible values are:
         2. 'pre' - Preordering (default)
         1. 'post' - Postordering
-    
+
     @rtype:  iterator
     @return: Traversal iterator.
     """
     visited = {}
-    if (order == 'pre'):
+    if order == "pre":
         pre = 1
         post = 0
-    elif (order == 'post'):
+    elif order == "post":
         pre = 0
         post = 1
-    
+
     for each in _dfs(graph, visited, node, pre, post):
         yield each
 
@@ -64,7 +65,7 @@ def traversal(graph, node, order):
 def _dfs(graph, visited, node, pre, post):
     """
     Depth-first search subfunction for traversals.
-    
+
     @type  graph: graph, digraph
     @param graph: Graph.
 
@@ -75,10 +76,12 @@ def _dfs(graph, visited, node, pre, post):
     @param node: Node to be explored by DFS.
     """
     visited[node] = 1
-    if (pre): yield node
+    if pre:
+        yield node
     # Explore recursively the connected component
     for each in graph[node]:
-        if (each not in visited):
+        if each not in visited:
             for other in _dfs(graph, visited, each, pre, post):
                 yield other
-    if (post): yield node
+    if post:
+        yield node
