@@ -91,7 +91,7 @@ def read(string):
     # Note: If the nodes aren't explicitly listed, they need to be
     for each_node in dotG.get_nodes():
         G.add_node(each_node.get_name())
-        for each_attr_key, each_attr_val in list(each_node.get_attributes().items()):
+        for each_attr_key, each_attr_val in each_node.get_attributes().items():
             G.add_node_attribute(each_node.get_name(), (each_attr_key, each_attr_val))
 
     # Read edges...
@@ -118,7 +118,7 @@ def read(string):
             (each_edge.get_source(), each_edge.get_destination()), wt=_wt, label=_label
         )
 
-        for each_attr_key, each_attr_val in list(each_edge.get_attributes().items()):
+        for each_attr_key, each_attr_val in each_edge.get_attributes().items():
             if each_attr_key not in ["weight", "label"]:
                 G.add_edge_attribute(
                     (each_edge.get_source(), each_edge.get_destination()),

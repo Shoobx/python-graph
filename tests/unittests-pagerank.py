@@ -30,7 +30,7 @@ Unittests for pygraph.algorithms.pagerank
 import unittest
 from pygraph.classes.digraph import digraph
 from pygraph.algorithms.pagerank import pagerank
-import testlib
+from . import testlib
 
 class test_pagerank(unittest.TestCase):
 

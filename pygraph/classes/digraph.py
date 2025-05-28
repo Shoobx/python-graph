@@ -96,12 +96,12 @@ class digraph(basegraph, common, labeling):
         @rtype:  list
         @return: List of all edges in the graph.
         """
-        return [a for a in self._edges()]
+        return list(self._edges())
 
     def _edges(self):
-        for n, neighbors in list(self.node_neighbors.items()):
+        for n, neighbors in self.node_neighbors.items():
             for neighbor in neighbors:
-                yield (n, neighbor)
+                yield n, neighbor
 
     def has_node(self, node):
         """

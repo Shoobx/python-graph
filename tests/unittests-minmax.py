@@ -28,7 +28,7 @@ Unittests for graph.algorithms.searching
 """
 
 import unittest
-import testlib
+from . import testlib
 
 from pygraph.classes.graph import graph
 from pygraph.classes.digraph import digraph

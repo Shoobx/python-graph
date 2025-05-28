@@ -56,7 +56,7 @@ class chow:
         """
         for center in self.centers:
             shortest_routes = shortest_path(graph, center)[1]
-            for node, weight in list(shortest_routes.items()):
+            for node, weight in shortest_routes.items():
                 self.nodes.setdefault(node, []).append(weight)
 
     def __call__(self, start, end):
@@ -69,10 +69,10 @@ class chow:
         @type  end: node
         @param end: End node.
         """
-        assert len(list(self.nodes.keys())) > 0, (
+        assert len(self.nodes.keys()) > 0, (
             "You need to optimize this heuristic for your graph before it can be used to estimate."
         )
 
-        cmp_sequence = list(zip(self.nodes[start], self.nodes[end]))
+        cmp_sequence = zip(self.nodes[start], self.nodes[end])
         chow_number = max(abs(a - b) for a, b in cmp_sequence)
         return chow_number

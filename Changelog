@@ -13,7 +13,7 @@ Enhancements:
     Make shortest_path (Dijkstra's algorithm) run in O(E log V) instead of O(E^2) (dkorduban)
     Make graph.add_edge run in O(1) instead of O(degree(V)) (dkorduban)
     Added implementation of Kruskal's Minimum Spanning Tree construction algorithm (goldragoon)
-
+    Repackaged and updated to python3 (robinharms)
 
 Release 1.8.2 [July 14, 2012]
 

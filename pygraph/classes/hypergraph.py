@@ -139,12 +139,12 @@ class hypergraph(basegraph, common, labeling):
         @rtype:  list
         @return: List of all node objects adjacent to the given node.
         """
-        neighbors = set([])
+        neighbors = set()
 
         for e in self.node_links[obj]:
-            neighbors.update(set(self.edge_links[e]))
+            neighbors.update(self.edge_links[e])
 
-        return list(neighbors - set([obj]))
+        return list(neighbors - {obj})
 
     def has_node(self, node):
         """

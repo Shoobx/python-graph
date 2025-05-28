@@ -2,26 +2,11 @@
 python-graph
 ============
 
-.. image:: https://travis-ci.org/Shoobx/python-graph.png?branch=master
-   :target: https://travis-ci.org/Shoobx/python-graph
-
-.. image:: https://coveralls.io/repos/github/Shoobx/python-graph/badge.svg?branch=master
-   :target: https://coveralls.io/github/Shoobx/python-graph?branch=master
-
-.. image:: https://img.shields.io/pypi/v/python-graph-core.svg
-    :target: https://pypi.org/project/python-graph-core/
-
-.. image:: https://img.shields.io/pypi/pyversions/python-graph-core.svg
-    :target: https://pypi.org/project/python-graph-core/
-
-.. image:: https://api.codeclimate.com/v1/badges/8e78b3479160f2c5cdd0/maintainability
-   :target: https://codeclimate.com/github/Shoobx/python-graph/maintainability
-   :alt: Maintainability
 
 A library for working with graphs in Python
 -------------------------------------------
 
-This software provides ﻿a suitable data structure for representing graphs and a
+This software provides a suitable data structure for representing graphs and a
 whole set of important algorithms.
 
 
@@ -30,27 +15,17 @@ INSTALLING
 
 To install the core module, run:
 
-	make install-core
+	pip install python-graph
 
 To install the dot language support, run:
 
-	make install-dot
-
-Alternatively, if you don't have make, you can install the modules by running:
-
-	./setup.py install
-
-inside the module directory.
+	pip install python-graph[dot]
 
 
 DOCUMENTATION
 -------------
 
-To generate the API documentation for this package, run:
-
-	make docs
-
-You'll need epydoc installed in your system.
+FIXME: Module documentation isn't available
 
 
 WEBSITE
@@ -147,6 +122,9 @@ Daniel Merritt <dmerritt@gmail.com>
 Sandro Tosi <morph@debian.org>
 	* Some improvements to Makefile
 
+Robin Harms Oredsson <robin@betahaus.net>
+	* Repackaging and modernization to make it work with python3 and modern distribution.
+	* Typing
 
 LICENSE
 -------

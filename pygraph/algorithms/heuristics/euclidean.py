@@ -40,18 +40,20 @@ class euclidean:
         3. The C{optimize()} method should be called before the heuristic search.
 
     A small example for clarification:
-
+    >>> from pygraph.classes import graph
     >>> g = graph.graph()
     >>> g.add_nodes(['A','B','C'])
     >>> g.add_node_attribute('A', ('position',(0,0)))
     >>> g.add_node_attribute('B', ('position',(1,1)))
     >>> g.add_node_attribute('C', ('position',(0,2)))
-    >>> g.add_edge('A','B', wt=2)
-    >>> g.add_edge('B','C', wt=2)
-    >>> g.add_edge('A','C', wt=4)
-    >>> h = graph.heuristics.euclidean()
+    >>> g.add_edge(('A','B'), wt=2)
+    >>> g.add_edge(('B','C'), wt=2)
+    >>> g.add_edge(('A','C'), wt=4)
+    >>> h = euclidean()
     >>> h.optimize(g)
-    >>> g.heuristic_search('A', 'C', h)
+    >>> from pygraph.algorithms.minmax import heuristic_search
+    >>> heuristic_search(g, 'A', 'C', h)
+    ['A', 'C']
     """
 
     def __init__(self):
@@ -92,7 +94,7 @@ class euclidean:
         @type  end: node
         @param end: End node.
         """
-        assert len(list(self.distances.keys())) > 0, (
+        assert len(self.distances.keys()) > 0, (
             "You need to optimize this heuristic for your graph before it can be used to estimate."
         )
 

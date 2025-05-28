@@ -32,7 +32,7 @@ import pygraph
 from pygraph.algorithms.generators import generate
 from pygraph.classes.exceptions import AdditionError
 from pygraph.classes.graph import graph
-import testlib
+from . import testlib
 from copy import copy, deepcopy
 
 class test_graph(unittest.TestCase):
@@ -112,10 +112,10 @@ class test_graph(unittest.TestCase):
         assert len(gr.edges()) == 2
         assert gr.neighbors(0) == [1]
         assert gr.neighbors(1) == [0]
-        assert (0,1) in gr.edge_properties.keys()
-        assert (1,0) in gr.edge_properties.keys()
-        assert (0,1) in gr.edge_attr.keys()
-        assert (1,0) in gr.edge_attr.keys()
+        assert (0,1) in list(gr.edge_properties.keys())
+        assert (1,0) in list(gr.edge_properties.keys())
+        assert (0,1) in list(gr.edge_attr.keys())
+        assert (1,0) in list(gr.edge_attr.keys())
     
     def test_edges_between_different_nodes_should_be_a_single_arrow(self):
         gr = graph()
@@ -124,8 +124,8 @@ class test_graph(unittest.TestCase):
         assert (0,0) in gr.edges()
         assert len(gr.edges()) == 1
         assert gr.neighbors(0) == [0]
-        assert (0,0) in gr.edge_properties.keys()
-        assert (0,0) in gr.edge_attr.keys()
+        assert (0,0) in list(gr.edge_properties.keys())
+        assert (0,0) in list(gr.edge_attr.keys())
         assert len(gr.edge_attr[(0,0)]) == 1
 
     
@@ -150,7 +150,7 @@ class test_graph(unittest.TestCase):
     
     def test_complete_graph(self):
         gr = graph()
-        gr.add_nodes(range(10))
+        gr.add_nodes(list(range(10)))
         gr.complete()
         for i in range(10):
             for j in range(10):

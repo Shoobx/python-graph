@@ -84,7 +84,7 @@ class graph(basegraph, common, labeling):
         @rtype:  list
         @return: List of all edges in the graph.
         """
-        return [a for a in list(self.edge_properties.keys())]
+        return list(self.edge_properties.keys())
 
     def has_node(self, node):
         """
@@ -155,7 +155,7 @@ class graph(basegraph, common, labeling):
         @type  node: node
         @param node: Node identifier.
         """
-        for each in list(self.neighbors(node)):
+        for each in self.neighbors(node):
             if each != node:
                 self.del_edge((each, node))
         del self.node_neighbors[node]

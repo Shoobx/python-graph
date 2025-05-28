@@ -103,11 +103,11 @@ def generate_hypergraph(num_nodes, num_edges, r=0):
     random_graph = hypergraph()
 
     # Nodes
-    nodes = list(map(str, list(range(num_nodes))))
+    nodes = list(map(str, range(num_nodes)))
     random_graph.add_nodes(nodes)
 
     # Base edges
-    edges = list(map(str, list(range(num_nodes, num_nodes + num_edges))))
+    edges = list(map(str, range(num_nodes, num_nodes + num_edges)))
     random_graph.add_hyperedges(edges)
 
     # Connect the edges

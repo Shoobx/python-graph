@@ -56,6 +56,6 @@ A quick introductory example:
 >>> # Depth first search rooted on node X
 >>> st, pre, post = depth_first_search(gr, root='X')
 >>> # Print the spanning tree
->>> print st
-{'A': 'B', 'C': 'A', 'B': 'Y', 'Y': 'X', 'X': None, 'Z': 'X'}
+>>> {x:st[x] for x in sorted(st)}
+{'A': 'B', 'B': 'Y', 'C': 'A', 'X': None, 'Y': 'X', 'Z': 'X'}
 """
