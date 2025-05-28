@@ -87,4 +87,4 @@ class HeapItem:
         self.priority = priority
 
     def __cmp__(self, other):
-        return cmp(self.priority, other.priority)
+        return (self.priority > other.priority) - (self.priority < other.priority)

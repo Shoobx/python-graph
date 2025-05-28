@@ -21,6 +21,15 @@ To install the dot language support, run:
 
 	pip install python-graph[dot]
 
+If you want the development version, use poetry
+
+	pip install poetry
+	poetry install --with dev
+
+And to run tests
+
+	pytest
+
 
 DOCUMENTATION
 -------------
@@ -124,7 +133,6 @@ Sandro Tosi <morph@debian.org>
 
 Robin Harms Oredsson <robin@betahaus.net>
 	* Repackaging and modernization to make it work with python3 and modern distribution.
-	* Typing
 
 LICENSE
 -------
