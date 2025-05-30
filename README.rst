@@ -132,7 +132,8 @@ Sandro Tosi <morph@debian.org>
 	* Some improvements to Makefile
 
 Robin Harms Oredsson <robin@betahaus.net>
-	* Repackaging and modernization to make it work with python3 and modern distribution.
+	* Py3-fixes and modern distribution.
+	* Unified package with optional install instead.
 
 LICENSE
 -------
