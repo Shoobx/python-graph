@@ -15,20 +15,35 @@ INSTALLING
 
 To install the core module, run:
 
+.. code-block::
+
 	pip install python-graph
 
 To install the dot language support, run:
 
+.. code-block::
+
 	pip install python-graph[dot]
 
-If you want the development version, use poetry
+If you want the development version, use poetry. This will also install pytest and pydot.
+
+.. code-block::
 
 	pip install poetry
 	poetry install --with dev
 
-And to run tests
+And to run tests:
+
+.. code-block::
 
 	pytest
+
+Coverage has some defaults set so simply run:
+
+.. code-block::
+
+	coverage run
+	coverage report
 
 
 DOCUMENTATION
