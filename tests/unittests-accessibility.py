@@ -38,7 +38,7 @@ from pygraph.algorithms.accessibility import cut_edges
 from pygraph.classes.hypergraph import hypergraph
 from copy import deepcopy
 from sys import getrecursionlimit
-import testlib
+from . import testlib
 
 def number_of_connected_components(cc):
     n = 0
@@ -86,7 +86,7 @@ class test_accessibility(unittest.TestCase):
     
     def test_accessibility_on_very_deep_graph(self):
         gr = pygraph.classes.graph.graph()
-        gr.add_nodes(range(0,2001))
+        gr.add_nodes(list(range(0,2001)))
         for i in range(0,2000):
             gr.add_edge((i,i+1))
         recursionlimit = getrecursionlimit()
@@ -110,7 +110,7 @@ class test_accessibility(unittest.TestCase):
     
     def test_mutual_accessibility_on_very_deep_graph(self):
         gr = pygraph.classes.graph.graph()
-        gr.add_nodes(range(0,5001))
+        gr.add_nodes(list(range(0,5001)))
         for i in range(0,5000):
             gr.add_edge((i,i+1))
         recursionlimit = getrecursionlimit()
@@ -149,7 +149,7 @@ class test_accessibility(unittest.TestCase):
 
     def test_connected_components_on_very_deep_graph(self):
         gr = pygraph.classes.graph.graph()
-        gr.add_nodes(range(0,5001))
+        gr.add_nodes(list(range(0,5001)))
         for i in range(0,5000):
             gr.add_edge((i,i+1))
         recursionlimit = getrecursionlimit()
@@ -174,7 +174,7 @@ class test_accessibility(unittest.TestCase):
     
     def test_cut_nodes_on_very_deep_graph(self):
         gr = pygraph.classes.graph.graph()
-        gr.add_nodes(range(0,5001))
+        gr.add_nodes(list(range(0,5001)))
         for i in range(0,5000):
             gr.add_edge((i,i+1))
         recursionlimit = getrecursionlimit()
@@ -199,7 +199,7 @@ class test_accessibility(unittest.TestCase):
 
     def test_cut_edges_on_very_deep_graph(self):
         gr = pygraph.classes.graph.graph()
-        gr.add_nodes(range(0,5001))
+        gr.add_nodes(list(range(0,5001)))
         for i in range(0,5000):
             gr.add_edge((i,i+1))
         recursionlimit = getrecursionlimit()
@@ -210,7 +210,7 @@ class test_accessibility(unittest.TestCase):
         gr = hypergraph()
         
         # Add some nodes / edges
-        gr.add_nodes(range(8))
+        gr.add_nodes(list(range(8)))
         gr.add_hyperedges(['a', 'b', 'c'])
         
         # Connect the 9 nodes with three size-3 hyperedges
@@ -232,7 +232,7 @@ class test_accessibility(unittest.TestCase):
         gr = hypergraph()
         
         # Add some nodes / edges
-        gr.add_nodes(range(9))
+        gr.add_nodes(list(range(9)))
         gr.add_hyperedges(['a', 'b', 'c'])
         
         # Connect the 9 nodes with three size-3 hyperedges
@@ -251,7 +251,7 @@ class test_accessibility(unittest.TestCase):
         
         # Do it again with two components and more than one edge for each
         gr = hypergraph()
-        gr.add_nodes(range(9))
+        gr.add_nodes(list(range(9)))
         gr.add_hyperedges(['a', 'b', 'c', 'd'])
         
         for node_set in [['a',0,1,2], ['b',2,3,4], ['c',5,6,7], ['d',6,7,8]]:
@@ -274,7 +274,7 @@ class test_accessibility(unittest.TestCase):
         gr = hypergraph()
         
         # Add some nodes / edges
-        gr.add_nodes(range(9))
+        gr.add_nodes(list(range(9)))
         gr.add_hyperedges(['a', 'b', 'c'])
         
         # Connect the 9 nodes with three size-3 hyperedges
@@ -301,7 +301,7 @@ class test_accessibility(unittest.TestCase):
         gr = hypergraph()
         
         # Add some nodes / edges
-        gr.add_nodes(range(9))
+        gr.add_nodes(list(range(9)))
         gr.add_hyperedges(['a1', 'b1', 'c1'])
         gr.add_hyperedges(['a2', 'b2', 'c2'])
         

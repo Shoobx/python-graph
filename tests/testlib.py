@@ -49,8 +49,8 @@ use_size = 'medium'
 # Init
 try:
     if (argv[0] != 'testrunner.py'):
-        print
-        print ("Random seed: %s" % random_seed)
+        print()
+        print(("Random seed: %s" % random_seed))
 except:
     pass
 

@@ -1,0 +1,68 @@
+[project]
+name = "python-graph"
+version = "2.0.0"
+description = "A library for working with graphs in Python"
+authors = [
+    {name = "Pedro Matiello"}
+]
+license = {text = "MIT"}
+readme = "README.rst"
+requires-python = ">=3.10"
+dependencies = []
+
+[project.optional-dependencies]
+dot = [
+    "pydot"
+]
+
+[tool.poetry]
+packages = [
+    { include = "pygraph" },
+]
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.3.5"
+coverage = "^7.8.2"
+ruff = "^0.11.11"
+pydot = "^4.0.0"
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.pytest.ini_options]
+#minversion = "6.0"
+addopts = "--doctest-modules --maxfail=1"
+doctest_optionflags = [
+    "NORMALIZE_WHITESPACE",
+    "IGNORE_EXCEPTION_DETAIL",
+    "ELLIPSIS",
+]
+testpaths = [
+    "pygraph",
+    "tests",
+]
+python_files = [
+    "test_*",
+    "unittests-*"
+]
+
+[tool.coverage.run]
+command_line = "-m pytest --doctest-modules"
+source = ["pygraph"]
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = true
+skip_empty = true
+exclude_also = [
+    'def __repr__',
+    'if self.debug:',
+    'raise AssertionError',
+    'raise NotImplementedError',
+    'if 0:',
+    'if __name__ == .__main__.:',
+    'if TYPE_CHECKING:',
+    'class .*\bProtocol\):',
+    '@(abc\.)?abstractmethod',
+]

@@ -32,7 +32,7 @@ import pygraph.classes
 from pygraph.algorithms.sorting import topological_sorting
 from pygraph.algorithms.searching import depth_first_search
 from sys import getrecursionlimit
-import testlib
+from . import testlib
 
 
 class test_topological_sorting(unittest.TestCase):
@@ -79,7 +79,7 @@ class test_topological_sorting(unittest.TestCase):
 
     def test_topological_sort_on_very_deep_graph(self):
         gr = pygraph.classes.graph.graph()
-        gr.add_nodes(range(0,12001))
+        gr.add_nodes(list(range(0,12001)))
         for i in range(0,12000):
             gr.add_edge((i,i+1))
         recursionlimit = getrecursionlimit()

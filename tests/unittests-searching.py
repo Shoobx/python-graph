@@ -33,7 +33,7 @@ import pygraph
 import pygraph.classes
 from pygraph.algorithms.searching import depth_first_search, breadth_first_search
 from sys import getrecursionlimit
-import testlib
+from . import testlib
 
 
 class test_depth_first_search(unittest.TestCase):
@@ -74,7 +74,7 @@ class test_depth_first_search(unittest.TestCase):
 
     def test_dfs_very_deep_graph(self):
         gr = pygraph.classes.graph.graph()
-        gr.add_nodes(range(0,12001))
+        gr.add_nodes(list(range(0,12001)))
         for i in range(0,12000):
             gr.add_edge((i,i+1))
         recursionlimit = getrecursionlimit()
