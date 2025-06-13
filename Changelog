@@ -14,6 +14,12 @@ Enhancements:
 	New location, and new main maintainers.
 	Various fixes and improvements to the Makefile and test running.
 	Automatic tests and coverage of master and pull request with Travis and Coveralls.
+2.0.1 (unreleased)
+                  
+
+- Nothing changed yet.
+
+
 2.0.0 (2025-06-13)
     Make graph.add_edge run in O(1) instead of O(degree(V)) (dkorduban)
     Added implementation of Kruskal's Minimum Spanning Tree construction algorithm (goldragoon)

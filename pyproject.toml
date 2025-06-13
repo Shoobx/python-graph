@@ -1,6 +1,6 @@
 [project]
 name = "python-graph"
-version = "2.0.0"
+version = "2.0.1.dev0"
 description = "A library for working with graphs in Python"
 authors = [
     {name = "Pedro Matiello"}
